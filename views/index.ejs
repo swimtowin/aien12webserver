@@ -8,7 +8,7 @@
 	<meta name="description" content="Thoughts, reviews and ideas since 1999." />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<link rel="shortcut icon" href="#">
-	<link  rel="stylesheet"  href="css/screen.css" />
+	<link rel="stylesheet" href="css/screen.css" />
 	<link href="https://fonts.googleapis.com/css2?family=Caveat&display=swap" rel="stylesheet">
 	<script src="/js/html5-qrcode.min.js"></script>
 	<link rel="stylesheet" href="css/animations.css">
@@ -72,7 +72,7 @@
 			<ul id="menu">
 				<li class="nav-home nav-current" role="presentation"><a href="#content">scan QR-code</a></li>
 				<li class="nav-home nav-current" role="presentation"><a href="#result">Scan Result</a></li>
-				<li class="nav-home nav-current" role="presentation"><a href="/product.html">Today's Pick Up</a>
+				<li class="nav-home nav-current" role="presentation"><a href="/product">Today's Pick Up</a>
 				</li>
 				<li class="nav-home nav-current" role="presentation"><a href="#"></a></li>
 				<li class="nav-home nav-current" role="presentation"><a href="#"></a></li>
@@ -116,68 +116,14 @@
 		<div class="col">
 			<h4 style="text-align: center;">Scan Result</h4><br>
 			<div id="result"></div>
-			<img id="imgdb" src="">
+			<img id="imgdb" style="width: 400px;border-radius: 20px;" src="">
 		</div>
 		<!-- --------------------------------------------- -->
-		<br><br><br>
+		<!-- <br><br><br> -->
 		<hr>
 		<!-- --------------推薦服飾三套--------------------- -->
-		<div class="wraps">
-			<div>
-				<div style="background-color: gray;width: 300px;height: 300px;margin: 50px 30%;text-align: center;">
-					<!-- <img id="outfit" style="margin: 13% auto;" src="/images/101.jpg"> -->
-					<img class="bigEntrance" id="outfit" style="margin: auto;" src="">
-				</div>
-				<div style="float: right;">
-					<h1 class="bounce">90</h1>
-				</div>
-			</div>
+		<div class="wraps" style="text-align: center;" id="show">
 			
-			<div class="grid">
-				<!-- top -->
-				<div class="grid-item">
-					<article class="post">
-						<div class="wrapgriditem" style="text-align: center;">
-							<header class="post-header">
-								<h1 class="post-title"><a href="">1</a></h1>
-							</header>
-							<section class="post-excerpt">
-								<!-- <img id="top" src="/images/101.jpg"> -->
-								<img id="top" src="">
-							</section>
-						</div>
-					</article>
-				</div>
-				<!-- bottom -->
-				<div class="grid-item">
-					<article class="post tag-romance" style="text-align: center;">
-						<div class="wrapgriditem">
-							<header class="post-header">
-								<h2 class="post-title"><a href="">2</a></h2>
-							</header>
-							<section class="post-excerpt">
-								<!-- <img id="bottom" src="/images/102.jpg"> -->
-								<img id="bottom" src="">
-							</section>
-						</div>
-					</article>
-				</div>
-				<!-- accessories -->
-				<div class="grid-item">
-					<article class="post">
-						<div class="wrapgriditem" style="text-align: center;">
-							<header class="post-header">
-								<h2 class="post-title"><a href="">3</a></h2>
-							</header>
-							<section class="post-excerpt">
-								<!-- <img id="accessories" src="/images/102.jpg"> -->
-								<img id="accessories" src="">
-								
-							</section>
-						</div>
-					</article>
-				</div>
-			</div>
 		</div>
 	</main>
 	<!-- --------------------------------------------- -->
@@ -190,44 +136,64 @@
 		</div>
 	</footer>
 	</div>
-	<script  src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-	<script  src="/js/masonry.min.js"></script>
+	<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+	<script src="/js/masonry.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
-	<script >
+	<script>
 
 
 
 		function onScanSuccess(qrCodeMessage) {
 
-			document.getElementById('result').innerHTML = '<span class="result">' + qrCodeMessage + '</span>';
-			document.getElementById('result').innerHTML = '<img src="' + qrCodeMessage + '">'
+			document.getElementById('result').innerHTML = '<img src="/images/' + qrCodeMessage + '.jpg">';
+			// document.getElementById('result').innerHTML = '<img src="' + qrCodeMessage + '">'
 			console.log(qrCodeMessage)
 
 			var data = { url: qrCodeMessage }
 
 			$.ajax({
 				type: 'post',
-				url: 'http://localhost:3000/image',
-				contentType: 'application/json;charset=utf-8',
-				data: JSON.stringify(data)
+				url: 'http://localhost:8080/accounts/image',
+
+				data: data
 			}).done(function (result) {
-				console.log(result[0].ID);
+				console.log(result);
+				var iname = ""
+				var lenname = 0
+				var str = ""
+				var num=0
+				var text=['First','Second']
+				result.forEach(function (data) {
+					iname = data['clothset'].split(', ')
+					lenname = iname.length
+					str+='<h3 style="margin-bottom: 50px;">'+text[num]+'</h3><div class="grid" style="margin: 0 7%;width: 1300px;">'
+					for (let i = 0; i < lenname; i++) {
+						str += '<div class="grid-item" style="text-align: center;margin-left: 2.5px;"><article class="post tag-romance"><div class="wrapgriditem"><section class="post-excerpt"><a><img id="second1" class="shows" src="/images/' + iname[i] + '.jpg"></a></section></div></article></div></div>'
+						console.log(str)
+					} 
+
+					str+="</div><hr>"
+					num+=1
+				})
+				console.log(str)
+				$("#show").html(str)
+				
 				// -------------
 				// console.log(a)
 				// -------------
 				// console.log(result)
 				// console.log(result[1].name)
-				a = result[0].ID
-				var pic = document.getElementById('imgdb')
-				var outfit = document.getElementById('outfit')
-				var top = document.getElementById('top')
-				var bottom = document.getElementById('bottom')
-				var accessories = document.getElementById('accessories')
-				// pic.src = '/images/'+ a +'.jpeg'
-				outfit.src = '/images/'+ a +'.jpeg'
-				top.src = '/images/'+ a +'.jpeg'
-				bottom.src = '/images/'+ a +'.jpeg'
-				accessories.src = '/images/'+ a +'.jpeg'
+				// a = result[0].ID
+				// var pic = document.getElementById('imgdb')
+				// var outfit = document.getElementById('outfit')
+				// var top = document.getElementById('top')
+				// var bottom = document.getElementById('bottom')
+				// var accessories = document.getElementById('accessories')
+				// // pic.src = '/images/'+ a +'.jpeg'
+				// outfit.src = '/images/'+ a +'.jpeg'
+				// top.src = '/images/'+ a +'.jpeg'
+				// bottom.src = '/images/'+ a +'.jpeg'
+				// accessories.src = '/images/'+ a +'.jpeg'
 			}).fail(function (err) {
 				// alert(JSON.stringify(err));
 				alert('ERROR')

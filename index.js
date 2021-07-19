@@ -11,13 +11,20 @@ var connection = mysql.createConnection({
 	user     : 'aien12four',
 	password : 'uniqlo12aien',
 	database : 'images',
+	port:3306
 
 });
+
+app.set('view engine', 'ejs');
 var accounts = require('./accounts');
+
 connection.connect();
  
 global.db = connection;
- 
+var app = express();
+
+var router = express.Router();
+
 // all environments
 app.set('port', process.env.PORT || 8080);
 app.set('views', __dirname + '/views');
@@ -28,11 +35,14 @@ app.use(express.static(path.join(__dirname, '/public')));
 app.use(fileUpload());
 
  
+
+
 // development only
  
 app.get('/', routes.index);//call for main index page
 app.post('/', routes.index);//call for signup post 
 // app.get('/profile/:id',routes.profile);
 app.use('/accounts', accounts);
+
 //Middleware
 app.listen(8080)

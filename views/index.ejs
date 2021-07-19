@@ -146,7 +146,7 @@
 		function onScanSuccess(qrCodeMessage) {
 
 			document.getElementById('result').innerHTML = '<img src="/images/' + qrCodeMessage + '.jpg">';
-			// document.getElementById('result').innerHTML = '<img src="' + qrCodeMessage + '">'
+			
 			console.log(qrCodeMessage)
 
 			var data = { url: qrCodeMessage }
@@ -178,24 +178,9 @@
 				console.log(str)
 				$("#show").html(str)
 				
-				// -------------
-				// console.log(a)
-				// -------------
-				// console.log(result)
-				// console.log(result[1].name)
-				// a = result[0].ID
-				// var pic = document.getElementById('imgdb')
-				// var outfit = document.getElementById('outfit')
-				// var top = document.getElementById('top')
-				// var bottom = document.getElementById('bottom')
-				// var accessories = document.getElementById('accessories')
-				// // pic.src = '/images/'+ a +'.jpeg'
-				// outfit.src = '/images/'+ a +'.jpeg'
-				// top.src = '/images/'+ a +'.jpeg'
-				// bottom.src = '/images/'+ a +'.jpeg'
-				// accessories.src = '/images/'+ a +'.jpeg'
+				
 			}).fail(function (err) {
-				// alert(JSON.stringify(err));
+		
 				alert('ERROR')
 			});
 		}
@@ -208,31 +193,7 @@
 		html5QrcodeScanner.render(onScanSuccess, onScanError);
 
 
-		// -------------------連MySQL------------------------
-		// $(document).ready(function () {
-
-		// 	var data = { url: '' }
-
-		// 	$.ajax({
-		// 		type: 'post',
-		// 		url: 'http://localhost:3000/image',
-		// 		contentType: 'application/json;charset=utf-8',
-		// 		data: JSON.stringify(data)
-		// 	}).done(function (result) {
-		// 		// -------------
-		// 		// console.log(a)
-		// 		// -------------
-		// 		// console.log(result)
-		// 		// console.log(result[1].name)
-		// 		// a = result[1].name
-		// 		// var pic = document.getElementById('imgdb')
-		// 		// pic.src = '/images/'+ a
-		// 	}).fail(function (err) {
-		// 		// alert(JSON.stringify(err));
-		// 		alert('ERROR')
-		// 	});
-		// });
-// --------------------------------------------------
+	
 
 	</script>
 </body>

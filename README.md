@@ -33,6 +33,53 @@ Arguments:
 - `--delay`: Sleep time (seconds) between page requests.
 - `--log-level`: Logging verbosity (`DEBUG`, `INFO`, `WARNING`, `ERROR`, `CRITICAL`).
 
+## 中文快速上手
+
+以下步驟示範如何在可以連到 `www.computex.biz` 的電腦上執行爬蟲：
+
+1. **安裝環境**
+   - 安裝 Python 3.9 以上版本。
+   - 下載或 clone 這個專案到本機，例如 `git clone https://github.com/<your-account>/aien12webserver.git`。
+   - 在專案資料夾建立虛擬環境並安裝套件：
+
+     ```bash
+     python -m venv .venv
+     # macOS / Linux
+     source .venv/bin/activate
+     # Windows PowerShell
+     .venv\Scripts\Activate.ps1
+     pip install -r requirements.txt
+     ```
+
+2. **使用命令列執行爬蟲**
+   - 保持虛擬環境啟用，在專案根目錄輸入：
+
+     ```bash
+     python -m computex_crawler \
+       --output exhibitors.txt \
+       --start-page 1 \
+       --delay 1.0
+     ```
+
+   - 預設會從官方目錄首頁開始抓取並自動翻頁。
+   - `--output` 可以指定成 `.txt` 或 `.csv`，預設輸出檔案會是 `computex_exhibitors.csv`，以 UTF-8 編碼儲存，可直接用 Excel 開啟。
+   - `--delay` 可以調整每頁之間的等待秒數，避免對官網造成過多負載。
+
+3. **使用網頁介面**
+   - 啟動 Flask 伺服器：
+
+     ```bash
+     export FLASK_APP=computex_crawler.webapp:create_app  # Windows 可改用 set 指令
+     flask run --reload
+     ```
+
+   - 在瀏覽器開啟 <http://127.0.0.1:5000/>，輸入想爬的頁面網址與延遲秒數。
+   - 按下開始後，爬蟲會執行並自動下載 `tab` 分隔的 `.txt` 檔，可直接匯入 Excel。
+
+4. **Excel 匯入小技巧**
+   - 若 Excel 開啟時未自動分欄，可使用「資料」→「自文字/CSV」功能，編碼選擇 UTF-8、分隔符號選擇 `Tab`。
+   - 下載的檔案預設帶有 UTF-8 BOM，Excel 一般會自動辨識。
+
 ## Using the crawler from Python
 
 ```python

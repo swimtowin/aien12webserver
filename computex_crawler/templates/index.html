@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>COMPUTEX 展商名錄爬蟲</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        font-family: "Noto Sans TC", system-ui, -apple-system, "Segoe UI", sans-serif;
+        line-height: 1.6;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        background: #f4f5f7;
+      }
+      .container {
+        max-width: 720px;
+        margin: 3rem auto;
+        background: #ffffffcc;
+        padding: 2.5rem 3rem;
+        border-radius: 16px;
+        box-shadow: 0 12px 32px rgba(15, 23, 42, 0.12);
+      }
+      h1 {
+        margin-top: 0;
+        font-size: 2rem;
+        text-align: center;
+      }
+      form {
+        display: grid;
+        gap: 1.25rem;
+      }
+      label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 0.35rem;
+      }
+      input[type="text"],
+      input[type="number"] {
+        width: 100%;
+        padding: 0.65rem 0.75rem;
+        border: 1px solid #cbd5f5;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+      }
+      input[type="text"]:focus,
+      input[type="number"]:focus {
+        outline: none;
+        border-color: #2563eb;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25);
+      }
+      button {
+        background: linear-gradient(135deg, #2563eb, #1d4ed8);
+        color: #fff;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        font-size: 1.05rem;
+        border-radius: 999px;
+        cursor: pointer;
+        transition: transform 0.15s ease, box-shadow 0.2s ease;
+      }
+      button:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 12px 24px rgba(37, 99, 235, 0.25);
+      }
+      .error {
+        border-left: 4px solid #dc2626;
+        background: rgba(220, 38, 38, 0.08);
+        color: #b91c1c;
+        padding: 0.75rem 1rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+      }
+      .note {
+        font-size: 0.95rem;
+        color: #475569;
+      }
+      @media (max-width: 600px) {
+        .container {
+          margin: 1.5rem;
+          padding: 1.75rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="container">
+      <h1>COMPUTEX 展商名錄爬蟲</h1>
+      {% if error %}
+      <div class="error">{{ error }}</div>
+      {% endif %}
+      <form method="post">
+        <div>
+          <label for="directory_url">目錄網址</label>
+          <input
+            id="directory_url"
+            name="directory_url"
+            type="text"
+            value="{{ form.directory_url }}"
+            placeholder="https://www.computex.biz/2025/ExhibitorDirectory.aspx"
+            required
+          />
+        </div>
+        <div>
+          <label for="start_page">起始頁碼</label>
+          <input id="start_page" name="start_page" type="text" value="{{ form.start_page }}" />
+        </div>
+        <div>
+          <label for="max_pages">最大頁數（可留空）</label>
+          <input id="max_pages" name="max_pages" type="text" value="{{ form.max_pages }}" />
+        </div>
+        <div>
+          <label for="delay">每頁延遲秒數</label>
+          <input id="delay" name="delay" type="text" value="{{ form.delay }}" />
+        </div>
+        <div style="text-align: center">
+          <button type="submit">開始爬蟲並下載 TXT</button>
+        </div>
+      </form>
+      <p class="note">
+        產出的檔案會以 <strong>Tab 分隔</strong> 存成 UTF-8（含 BOM）的 <code>.txt</code>，
+        可直接於 Excel 以「開啟」或「匯入文字檔」方式使用。請確保執行環境可以存取外部網路並尊重網站使用條款。
+      </p>
+    </main>
+  </body>
+</html>

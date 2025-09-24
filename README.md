@@ -8,8 +8,8 @@ This repository contains a Python crawler that collects exhibitor information fr
 
 - Automatically walks through every directory page starting from an arbitrary page number.
 - Extracts company name, website, phone number, address and (when available) the detail page URL for each exhibitor.
-- Provides a reusable Python API as well as a command line interface.
-- Writes the collected data to a UTF-8 CSV file.
+- Provides a reusable Python API, command line interface and web UI.
+- Writes the collected data to a UTF-8 CSV or tab-delimited TXT file.
 
 ## Installation
 
@@ -44,6 +44,21 @@ for exhibitor in exhibitors:
 ```
 
 The helper returns a list of `Exhibitor` dataclass instances. If `output_csv` is provided the data is also written to a CSV file.
+
+## Web interface
+
+You can launch a lightweight web interface that accepts the directory URL and
+automatically produces a tab-delimited `.txt` file that can be opened in Excel:
+
+```bash
+export FLASK_APP=computex_crawler.webapp:create_app
+flask run --reload
+```
+
+Open <http://127.0.0.1:5000/> in your browser and provide the COMPUTEX
+directory URL. Submitting the form will trigger the crawler and download a
+UTF-8 (with BOM) text file using tab separation so Excel can import the data
+without additional configuration.
 
 ## Testing
 
